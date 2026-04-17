@@ -1,11 +1,37 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<% content_for :title, "Ingresar — Bazar Salamone" %>
+<% content_for :auth_hero do %><%= render "shared/auth_hero_customer" %><% end %>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
+<header class="form-head">
+  <p class="form-head__eyebrow">Clientes</p>
+  <h1 class="form-head__title">Iniciar sesión</h1>
+  <p class="form-head__subtitle">Accedé a tu cuenta para consultar tus puntos y canjes.</p>
+</header>
+
+<%= form_with url: session_path, class: "form" do |form| %>
+  <div class="field">
+    <%= form.label :email_address, "Email", class: "field__label" %>
+    <%= form.email_field :email_address,
+          required: true,
+          autofocus: true,
+          autocomplete: "username",
+          class: "field__input",
+          placeholder: "tu@email.com",
+          value: params[:email_address] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password, "Contraseña", class: "field__label" %>
+    <%= form.password_field :password,
+          required: true,
+          maxlength: 72,
+          autocomplete: "current-password",
+          class: "field__input" %>
+  </div>
+
+  <%= form.submit "Ingresar", class: "btn btn--primary" %>
 <% end %>
-<br>
 
-<%= link_to "Forgot password?", new_password_path %>
+<nav class="auth__links">
+  <%= link_to "¿Olvidaste tu contraseña?", new_password_path %>
+  <%= link_to "¿No tenés cuenta? Creá una.", new_registration_path %>
+</nav>

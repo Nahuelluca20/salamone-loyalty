@@ -1,21 +1,46 @@
-<h1>Sign Up</h1>
+<% content_for :title, "Crear cuenta — Bazar Salamone" %>
+<% content_for :auth_hero do %><%= render "shared/auth_hero_customer" %><% end %>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<header class="form-head">
+  <p class="form-head__eyebrow">Clientes nuevos</p>
+  <h1 class="form-head__title">Creá tu cuenta</h1>
+  <p class="form-head__subtitle">Empezá a sumar puntos en tu próxima compra.</p>
+</header>
 
-<% if @user.errors.any? %>
-  <div style="color:red">
-    <% @user.errors.full_messages.each do |message| %>
-      <p><%= message %></p>
-    <% end %>
+<%= render "shared/form_errors", resource: @user %>
+
+<%= form_with model: @user, url: registration_path, class: "form" do |form| %>
+  <div class="field">
+    <%= form.label :email_address, "Email", class: "field__label" %>
+    <%= form.email_field :email_address,
+          required: true,
+          autofocus: true,
+          autocomplete: "username",
+          class: "field__input",
+          placeholder: "tu@email.com" %>
   </div>
+
+  <div class="field">
+    <%= form.label :password, "Contraseña", class: "field__label" %>
+    <%= form.password_field :password,
+          required: true,
+          maxlength: 72,
+          autocomplete: "new-password",
+          class: "field__input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password_confirmation, "Repetir contraseña", class: "field__label" %>
+    <%= form.password_field :password_confirmation,
+          required: true,
+          maxlength: 72,
+          autocomplete: "new-password",
+          class: "field__input" %>
+  </div>
+
+  <%= form.submit "Crear cuenta", class: "btn btn--primary" %>
 <% end %>
 
-<%= form_with model: @user, url: registration_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Email address" %><br>
-  <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Password", maxlength: 72 %><br>
-  <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Confirm password", maxlength: 72 %><br>
-  <%= form.submit "Sign up" %>
-<% end %>
-<br>
-
-<%= link_to "Already have an account? Sign in", new_session_path %>
+<nav class="auth__links">
+  <%= link_to "¿Ya tenés cuenta? Ingresar", new_session_path %>
+</nav>

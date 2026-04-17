@@ -1,10 +1,32 @@
-<h1>Admin Login</h1>
+<% content_for :title, "Admin — Bazar Salamone" %>
+<% content_for :auth_variant, "admin" %>
+<% content_for :auth_hero do %><%= render "shared/auth_hero_admin" %><% end %>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<header class="form-head">
+  <p class="form-head__eyebrow">Panel interno</p>
+  <h1 class="form-head__title">Iniciar sesión</h1>
+  <p class="form-head__subtitle">Acceso restringido al equipo operativo.</p>
+</header>
 
-<%= form_with url: admin_session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
+<%= form_with url: admin_session_path, class: "form" do |form| %>
+  <div class="field">
+    <%= form.label :email_address, "Email", class: "field__label" %>
+    <%= form.email_field :email_address,
+          required: true,
+          autofocus: true,
+          autocomplete: "username",
+          class: "field__input",
+          value: params[:email_address] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password, "Contraseña", class: "field__label" %>
+    <%= form.password_field :password,
+          required: true,
+          maxlength: 72,
+          autocomplete: "current-password",
+          class: "field__input" %>
+  </div>
+
+  <%= form.submit "Ingresar", class: "btn btn--primary" %>
 <% end %>

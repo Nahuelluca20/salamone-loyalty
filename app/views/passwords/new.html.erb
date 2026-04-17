@@ -1,8 +1,27 @@
-<h1>Forgot your password?</h1>
+<% content_for :title, "Recuperar contraseña — Bazar Salamone" %>
+<% content_for :auth_hero do %><%= render "shared/auth_hero_customer" %><% end %>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<header class="form-head">
+  <p class="form-head__eyebrow">Recuperar acceso</p>
+  <h1 class="form-head__title">¿Olvidaste tu contraseña?</h1>
+  <p class="form-head__subtitle">Ingresá tu email y te enviamos un enlace para restablecerla.</p>
+</header>
 
-<%= form_with url: passwords_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.submit "Email reset instructions" %>
+<%= form_with url: passwords_path, class: "form" do |form| %>
+  <div class="field">
+    <%= form.label :email_address, "Email", class: "field__label" %>
+    <%= form.email_field :email_address,
+          required: true,
+          autofocus: true,
+          autocomplete: "username",
+          class: "field__input",
+          placeholder: "tu@email.com",
+          value: params[:email_address] %>
+  </div>
+
+  <%= form.submit "Enviar instrucciones", class: "btn btn--primary" %>
 <% end %>
+
+<nav class="auth__links">
+  <%= link_to "Volver a iniciar sesión", new_session_path %>
+</nav>

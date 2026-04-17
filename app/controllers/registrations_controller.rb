@@ -1,5 +1,6 @@
 class RegistrationsController < ApplicationController
   allow_unauthenticated_access
+  layout "auth"
 
   def new
     @user = User.new

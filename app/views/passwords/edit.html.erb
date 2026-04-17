@@ -1,9 +1,35 @@
-<h1>Update your password</h1>
+<% content_for :title, "Nueva contraseña — Bazar Salamone" %>
+<% content_for :auth_hero do %><%= render "shared/auth_hero_customer" %><% end %>
 
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
+<header class="form-head">
+  <p class="form-head__eyebrow">Nuevo acceso</p>
+  <h1 class="form-head__title">Nueva contraseña</h1>
+  <p class="form-head__subtitle">Elegí una contraseña segura. Se cerrarán todas tus sesiones activas.</p>
+</header>
 
-<%= form_with url: password_path(params[:token]), method: :put do |form| %>
-  <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "Enter new password", maxlength: 72 %><br>
-  <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat new password", maxlength: 72 %><br>
-  <%= form.submit "Save" %>
+<%= form_with url: password_path(params[:token]), method: :put, class: "form" do |form| %>
+  <div class="field">
+    <%= form.label :password, "Nueva contraseña", class: "field__label" %>
+    <%= form.password_field :password,
+          required: true,
+          autofocus: true,
+          maxlength: 72,
+          autocomplete: "new-password",
+          class: "field__input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password_confirmation, "Repetir nueva contraseña", class: "field__label" %>
+    <%= form.password_field :password_confirmation,
+          required: true,
+          maxlength: 72,
+          autocomplete: "new-password",
+          class: "field__input" %>
+  </div>
+
+  <%= form.submit "Guardar", class: "btn btn--primary" %>
 <% end %>
+
+<nav class="auth__links">
+  <%= link_to "Volver a iniciar sesión", new_session_path %>
+</nav>
