@@ -319,6 +319,71 @@ Do not generate:
 
 ---
 
+## Reference Implementation
+
+Auth views (`app/views/sessions`, `app/views/registrations`, `app/views/passwords`, `app/views/admin/sessions`) and `app/assets/stylesheets/auth.css` are the canonical example of this style. Mirror the patterns below in any new surface.
+
+### Layout pattern
+
+* Split-screen on desktop: editorial hero panel on the left, focused form/content on the right
+* Collapse to single column under 960px; hero shrinks to a slim banner under 560px
+* Right panel keeps content centered, max-width ~400px for forms / 720px for reading
+
+### Customer vs Admin variants
+
+* Customer hero: `--primary` background with soft radial highlights and a faint grid mask — friendly, branded
+* Admin hero: `--graphite` background, denser grid, smaller wordmark, no italic — operational, restrained
+* Same component classes, branched via `.auth--customer` / `.auth--admin` modifiers
+
+### Tokens (CSS custom properties)
+
+Define once at `:root` and reuse — never hardcode hex/sizes inline. Token groups:
+
+* Brand: `--primary`, `--primary-dark`, `--secondary`, `--primary-tint`
+* Ink: `--ink`, `--ink-muted`, `--ink-faint`
+* Lines/surfaces: `--line`, `--line-soft`, `--surface`, `--surface-soft`, `--graphite`, `--graphite-soft`
+* Status: `--danger`, `--danger-tint`, `--success`, `--success-tint`
+* Type: `--font-display` (Fraunces), `--font-sans` (Geist), `--font-mono` (JetBrains Mono)
+* Shape: `--radius: 4px`
+
+### Type pairing
+
+* Display / hero / form titles: Fraunces (serif, light weight, tight tracking, italic for accent words)
+* UI / body: Geist (sans, 15–17px)
+* Eyebrows, labels, meta, error titles: JetBrains Mono, 11px, uppercase, `letter-spacing: 0.12–0.16em`
+
+### Form conventions
+
+* Inputs: 48px tall, 1px `--line` border, `--radius` (4px), 15px text
+* Focus ring: 3px translucent brand color (`rgba(9, 171, 232, 0.18)`) — graphite variant for admin
+* Buttons: 48px tall, primary uses brand background, hover swaps to `--primary-dark`, subtle inset shadow
+* Field gap 20px, label/input gap 8px
+* Errors and flashes use tinted backgrounds (`--danger-tint`, `--success-tint`) with matching 1px border
+
+### Motion
+
+* Entrance: `auth-fade-up` keyframe (6px translateY, 500ms, custom cubic-bezier), staggered 40–240ms between blocks
+* Always wrap in `@media (prefers-reduced-motion: no-preference)`
+* Transitions: 80–160ms for hover/focus/active, never longer
+
+### File structure
+
+* One scoped stylesheet per feature surface (`auth.css`, future: `shop.css`, `admin.css`)
+* Reusable partials in `app/views/shared/` (`_flash.html.erb`, `_form_errors.html.erb`, hero partials)
+* Dedicated layout when the surface needs different chrome (`layouts/auth.html.erb`)
+
+### Checklist for new views
+
+1. Reuse the token set; extend `:root` instead of inventing new values
+2. Pick the layout pattern (split-screen, centered panel, full-width editorial) before styling
+3. Use Fraunces for the lead title, mono eyebrow above it, sans body below
+4. Forms follow the 48px / 4px-radius / mono-label pattern
+5. Add `@media (max-width: 960px)` and `@media (max-width: 560px)` breakpoints
+6. Wrap entrance motion in `prefers-reduced-motion`
+7. Branch with a top-level modifier class (`.surface--customer`, `.surface--admin`) instead of duplicating components
+
+---
+
 ## Final Prompt Summary for LLM
 
 Design a website with editorial minimalism for developers. Prioritize typography, whitespace, trust, and technical credibility. Use restrained color, clean structure, subtle interactions, and direct copy. The result should feel mature, capable, opinionated, and free of marketing noise.

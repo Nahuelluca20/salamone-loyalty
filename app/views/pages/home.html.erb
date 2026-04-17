@@ -1,0 +1,191 @@
+<% content_for :title, "Bazar Salamone — Club de puntos del barrio" %>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="<%= root_path %>" class="nav__brand">
+      <span class="nav__wordmark">Bazar Salamone</span>
+      <span class="nav__tag">Club de puntos</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Secciones">
+      <a href="#como-funciona" class="nav__link">Cómo funciona</a>
+      <a href="#promociones" class="nav__link">Promociones</a>
+      <a href="#productos" class="nav__link">Productos</a>
+    </nav>
+
+    <div class="nav__actions">
+      <%= link_to "Iniciar sesión", new_session_path, class: "btn btn--quiet" %>
+      <%= link_to "Crear cuenta", new_registration_path, class: "btn btn--primary" %>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero__inner">
+    <p class="hero__eyebrow">Club Salamone</p>
+    <h1 class="hero__headline">El bazar del barrio, con un <em>club de puntos</em> propio.</h1>
+    <p class="hero__subtext">Sumá puntos en cada compra y canjealos por productos del bazar. Sin apps complicadas, sin letra chica.</p>
+
+    <div class="hero__ctas">
+      <%= link_to "Crear cuenta", new_registration_path, class: "btn btn--primary" %>
+      <%= link_to "Ya tengo cuenta", new_session_path, class: "btn btn--ghost" %>
+    </div>
+
+    <p class="hero__meta">
+      <span>Programa de puntos</span>
+      <span>Bazar Salamone</span>
+      <span>Desde 2026</span>
+    </p>
+  </div>
+</section>
+
+<section id="como-funciona" class="section section--soft">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__eyebrow">Cómo funciona</p>
+      <h2 class="section__title">Tres pasos. <em>Sin trucos.</em></h2>
+      <p class="section__lede">El programa fue pensado para que cualquier cliente del bazar pueda usarlo, sin instalar nada raro ni hacer cuentas en una calculadora.</p>
+    </div>
+
+    <div class="steps__grid">
+      <article class="step">
+        <span class="step__number">01</span>
+        <h3 class="step__title">Creá tu cuenta</h3>
+        <p class="step__body">Tarda menos de un minuto. Solo necesitás un email y una contraseña.</p>
+      </article>
+
+      <article class="step">
+        <span class="step__number">02</span>
+        <h3 class="step__title">Comprá en el bazar</h3>
+        <p class="step__body">Cada compra suma puntos a tu cuenta. Los ves al instante desde tu perfil.</p>
+      </article>
+
+      <article class="step">
+        <span class="step__number">03</span>
+        <h3 class="step__title">Canjeá por productos</h3>
+        <p class="step__body">Usá tus puntos cuando quieras por items del bazar. Sin vencimientos abusivos.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="promociones" class="section">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__eyebrow">Promociones vigentes</p>
+      <h2 class="section__title">Activas <em>esta semana.</em></h2>
+      <p class="section__lede">Beneficios pensados para clientes del club. Las promociones cambian cada quince días.</p>
+    </div>
+
+    <div class="promos__grid">
+      <article class="promo">
+        <p class="promo__category">Bazar · Cocina</p>
+        <h3 class="promo__title">2x1 en utensilios de cocina seleccionados</h3>
+        <p class="promo__body">Llevás dos piezas y pagás una. Aplica a la línea de utensilios del catálogo verano.</p>
+        <div class="promo__footer">
+          <span>Hasta el 30 de abril</span>
+          <span class="promo__points">+250 pts</span>
+        </div>
+      </article>
+
+      <article class="promo">
+        <p class="promo__category">Bazar · Hogar</p>
+        <h3 class="promo__title">Doble puntos en textiles para el hogar</h3>
+        <p class="promo__body">Sábanas, mantas y toallas suman el doble durante toda la quincena.</p>
+        <div class="promo__footer">
+          <span>Hasta el 28 de abril</span>
+          <span class="promo__points">x2 pts</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="productos" class="section section--soft">
+  <div class="container">
+    <div class="section__head">
+      <p class="section__eyebrow">Productos del bazar</p>
+      <h2 class="section__title">Lo que más se canjea.</h2>
+      <p class="section__lede">Una selección de items que los clientes del club piden todas las semanas.</p>
+    </div>
+
+    <div class="products__grid">
+      <article class="product">
+        <div class="product__media" aria-hidden="true"></div>
+        <h3 class="product__name">Set de mates de algarrobo</h3>
+        <p class="product__points">1.200 pts</p>
+      </article>
+
+      <article class="product">
+        <div class="product__media" aria-hidden="true"></div>
+        <h3 class="product__name">Pava eléctrica de acero</h3>
+        <p class="product__points">3.400 pts</p>
+      </article>
+
+      <article class="product">
+        <div class="product__media" aria-hidden="true"></div>
+        <h3 class="product__name">Vajilla 24 piezas</h3>
+        <p class="product__points">5.800 pts</p>
+      </article>
+
+      <article class="product">
+        <div class="product__media" aria-hidden="true"></div>
+        <h3 class="product__name">Manta de algodón liviana</h3>
+        <p class="product__points">2.100 pts</p>
+      </article>
+    </div>
+
+    <div class="products__after">
+      <%= link_to "Ver el catálogo completo →", new_registration_path, class: "products__more" %>
+    </div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <div class="container cta-strip__inner">
+    <h2 class="cta-strip__title">Empezá a sumar puntos en tu <em>próxima compra</em>.</h2>
+    <div class="cta-strip__actions">
+      <%= link_to "Crear cuenta", new_registration_path, class: "btn btn--primary" %>
+      <%= link_to "Iniciar sesión", new_session_path, class: "btn btn--ghost" %>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <p class="footer__wordmark">Bazar Salamone</p>
+        <p>Bazar de barrio con un club de puntos para clientes habituales. Lo que comprás se acumula, lo que acumulás se canjea.</p>
+        <p class="footer__address">
+          Av. Siempre Viva 742 · Local 3<br>
+          Lunes a sábado · 9 a 20 h
+        </p>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">Tu cuenta</p>
+        <ul class="footer__list">
+          <li><%= link_to "Crear cuenta", new_registration_path %></li>
+          <li><%= link_to "Iniciar sesión", new_session_path %></li>
+          <li><%= link_to "¿Olvidaste tu contraseña?", new_password_path %></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">El bazar</p>
+        <ul class="footer__list">
+          <li><a href="#como-funciona">Cómo funciona</a></li>
+          <li><a href="#promociones">Promociones</a></li>
+          <li><a href="#productos">Productos</a></li>
+          <li><%= link_to "Acceso interno", new_admin_session_path %></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__base">
+      <span>© 2026 Bazar Salamone</span>
+      <span>Hecho con cuidado</span>
+    </div>
+  </div>
+</footer>
