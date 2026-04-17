@@ -12,6 +12,8 @@ module Authentication
     end
   end
 
+  SESSION_COOKIE_DURATION = 15.days
+
   private
     def authenticated?
       resume_session
@@ -41,7 +43,12 @@ module Authentication
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|
         Current.session = session
-        cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
+        cookies.signed[:session_id] = {
+          value: session.id,
+          httponly: true,
+          same_site: :lax,
+          expires: SESSION_COOKIE_DURATION.from_now
+        }
       end
     end
 
