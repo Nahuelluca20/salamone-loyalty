@@ -1,0 +1,12 @@
+<% content_for :title, "Nueva promoción — Admin" %>
+
+<section class="page-head">
+  <div>
+    <p class="page-head__eyebrow">Promociones</p>
+    <h1 class="page-head__title">Nueva promoción</h1>
+  </div>
+</section>
+
+<div class="card">
+  <%= render "form", promotion: @promotion %>
+</div>

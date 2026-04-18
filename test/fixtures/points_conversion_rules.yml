@@ -1,0 +1,9 @@
+base:
+  pesos_per_point: 100
+  active: true
+  created_by: admin
+
+legacy:
+  pesos_per_point: 200
+  active: false
+  created_by: admin

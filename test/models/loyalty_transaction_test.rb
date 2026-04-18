@@ -8,4 +8,11 @@ class LoyaltyTransactionTest < ActiveSupport::TestCase
     assert_not txn.valid?
     assert_includes txn.errors[:points], "must be other than 0"
   end
+
+  test "amount_cents is optional" do
+    account = loyalty_accounts(:customer_account)
+    txn = account.loyalty_transactions.build(points: 10, kind: :earn, amount_cents: nil)
+
+    assert txn.valid?
+  end
 end

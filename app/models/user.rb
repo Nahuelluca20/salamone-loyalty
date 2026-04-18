@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   enum :role, { customer: 0, admin: 1 }
 
+  scope :customers, -> { where(role: :customer) }
+
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   validates :email_address, presence: true,

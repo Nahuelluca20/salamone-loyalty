@@ -1,0 +1,13 @@
+mate:
+  name: Mate Stanley
+  description: Mate de acero inoxidable
+  price: 15000.00
+  active: true
+  created_by: admin
+
+termo_inactivo:
+  name: Termo viejo
+  description: Discontinuado
+  price: 8000.00
+  active: false
+  created_by: admin

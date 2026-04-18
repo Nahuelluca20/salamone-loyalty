@@ -1,0 +1,20 @@
+<%= render "shared/form_errors", resource: rule %>
+
+<%= form_with model: [ :admin, rule ], class: "form" do |form| %>
+  <div class="field">
+    <%= form.label :pesos_per_point, "Pesos por punto", class: "field__label" %>
+    <%= form.number_field :pesos_per_point, min: 1, class: "field__input", required: true %>
+    <span class="field__hint">Ejemplo: 100 significa que cada 100 ARS gastados generan 1 punto.</span>
+  </div>
+
+  <label class="field__checkbox">
+    <%= form.check_box :active %>
+    Activa
+    <span class="field__hint" style="margin-left: 8px;">Solo una regla puede estar activa.</span>
+  </label>
+
+  <div class="button-row">
+    <%= form.submit(rule.persisted? ? "Guardar cambios" : "Crear regla", class: "btn btn--primary") %>
+    <%= link_to "Cancelar", admin_points_conversion_rules_path, class: "btn btn--ghost" %>
+  </div>
+<% end %>

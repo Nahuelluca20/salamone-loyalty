@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_18_193134) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_18_200004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_18_193134) do
   end
 
   create_table "loyalty_transactions", force: :cascade do |t|
+    t.integer "amount_cents"
     t.datetime "created_at", null: false
     t.integer "kind", null: false
     t.bigint "loyalty_account_id", null: false
@@ -62,6 +63,50 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_18_193134) do
     t.index ["loyalty_account_id", "created_at"], name: "idx_on_loyalty_account_id_created_at_c011de7872"
     t.index ["loyalty_account_id"], name: "index_loyalty_transactions_on_loyalty_account_id"
     t.index ["source_type", "source_id"], name: "index_loyalty_transactions_on_source_type_and_source_id"
+  end
+
+  create_table "points_conversion_rules", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id"
+    t.integer "pesos_per_point", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_points_conversion_rules_one_active", unique: true, where: "(active IS TRUE)"
+    t.index ["created_by_id"], name: "index_points_conversion_rules_on_created_by_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id"
+    t.text "description"
+    t.string "name", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_products_on_active"
+    t.index ["created_by_id"], name: "index_products_on_created_by_id"
+    t.index ["name"], name: "index_products_on_name"
+  end
+
+  create_table "promotion_products", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "product_id", null: false
+    t.bigint "promotion_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_promotion_products_on_product_id"
+    t.index ["promotion_id", "product_id"], name: "index_promotion_products_on_promotion_id_and_product_id", unique: true
+    t.index ["promotion_id"], name: "index_promotion_products_on_promotion_id"
+  end
+
+  create_table "promotions", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id"
+    t.string "name", null: false
+    t.integer "points_for_redemption", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_promotions_on_active"
+    t.index ["created_by_id"], name: "index_promotions_on_created_by_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -87,5 +132,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_18_193134) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "loyalty_accounts", "users"
   add_foreign_key "loyalty_transactions", "loyalty_accounts"
+  add_foreign_key "points_conversion_rules", "users", column: "created_by_id", on_delete: :nullify
+  add_foreign_key "products", "users", column: "created_by_id", on_delete: :nullify
+  add_foreign_key "promotion_products", "products", on_delete: :cascade
+  add_foreign_key "promotion_products", "promotions", on_delete: :cascade
+  add_foreign_key "promotions", "users", column: "created_by_id", on_delete: :nullify
   add_foreign_key "sessions", "users"
 end

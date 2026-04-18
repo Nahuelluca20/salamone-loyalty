@@ -1,0 +1,45 @@
+<% content_for :title, "Reglas de conversión — Admin" %>
+
+<section class="page-head">
+  <div>
+    <p class="page-head__eyebrow">Loyalty</p>
+    <h1 class="page-head__title">Reglas de conversión</h1>
+  </div>
+  <%= link_to "Nueva regla", new_admin_points_conversion_rule_path, class: "btn btn--primary" %>
+</section>
+
+<% if @rules.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Pesos por punto</th>
+        <th>Estado</th>
+        <th>Creada</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rules.each do |rule| %>
+        <tr>
+          <td><%= rule.pesos_per_point %> ARS = 1 punto</td>
+          <td>
+            <span class="badge <%= rule.active? ? 'badge--active' : 'badge--inactive' %>">
+              <%= rule.active? ? "Activa" : "Inactiva" %>
+            </span>
+          </td>
+          <td><%= l rule.created_at.to_date %></td>
+          <td>
+            <div class="button-row">
+              <%= link_to "Editar", edit_admin_points_conversion_rule_path(rule), class: "btn btn--ghost" %>
+              <%= button_to "Eliminar", admin_points_conversion_rule_path(rule), method: :delete,
+                    class: "btn btn--danger",
+                    form: { data: { turbo_confirm: "¿Seguro?" } } %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p style="color: var(--ink-muted);">No hay reglas configuradas. Crear una es obligatorio antes de otorgar puntos.</p>
+<% end %>

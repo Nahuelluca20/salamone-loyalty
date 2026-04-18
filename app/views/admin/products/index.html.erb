@@ -1,0 +1,47 @@
+<% content_for :title, "Productos — Admin" %>
+
+<section class="page-head">
+  <div>
+    <p class="page-head__eyebrow">Catálogo</p>
+    <h1 class="page-head__title">Productos</h1>
+  </div>
+  <%= link_to "Nuevo producto", new_admin_product_path, class: "btn btn--primary" %>
+</section>
+
+<div class="button-row" style="margin-bottom: 20px;">
+  <%= link_to "Activos", admin_products_path(status: "active"),
+        class: "btn #{@status == 'active' ? 'btn--primary' : 'btn--ghost'}" %>
+  <%= link_to "Inactivos", admin_products_path(status: "inactive"),
+        class: "btn #{@status == 'inactive' ? 'btn--primary' : 'btn--ghost'}" %>
+  <%= link_to "Todos", admin_products_path(status: "all"),
+        class: "btn #{@status == 'all' ? 'btn--primary' : 'btn--ghost'}" %>
+</div>
+
+<% if @products.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Estado</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= link_to product.name, admin_product_path(product) %></td>
+          <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+          <td>
+            <span class="badge <%= product.active? ? 'badge--active' : 'badge--inactive' %>">
+              <%= product.active? ? "Activo" : "Inactivo" %>
+            </span>
+          </td>
+          <td><%= link_to "Editar", edit_admin_product_path(product), class: "btn btn--ghost" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p style="color: var(--ink-muted);">Sin productos en este filtro.</p>
+<% end %>

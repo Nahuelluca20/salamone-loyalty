@@ -1,0 +1,40 @@
+<% content_for :title, "Promociones — Admin" %>
+
+<section class="page-head">
+  <div>
+    <p class="page-head__eyebrow">Canje de puntos</p>
+    <h1 class="page-head__title">Promociones</h1>
+  </div>
+  <%= link_to "Nueva promoción", new_admin_promotion_path, class: "btn btn--primary" %>
+</section>
+
+<% if @promotions.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Puntos</th>
+        <th>Productos</th>
+        <th>Estado</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @promotions.each do |promotion| %>
+        <tr>
+          <td><%= link_to promotion.name, admin_promotion_path(promotion) %></td>
+          <td><%= promotion.points_for_redemption %></td>
+          <td><%= promotion.products.count %></td>
+          <td>
+            <span class="badge <%= promotion.active? ? 'badge--active' : 'badge--inactive' %>">
+              <%= promotion.active? ? "Activa" : "Inactiva" %>
+            </span>
+          </td>
+          <td><%= link_to "Editar", edit_admin_promotion_path(promotion), class: "btn btn--ghost" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p style="color: var(--ink-muted);">Todavía no creaste promociones.</p>
+<% end %>

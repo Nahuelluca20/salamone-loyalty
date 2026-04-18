@@ -1,0 +1,45 @@
+<%= render "shared/form_errors", resource: promotion %>
+
+<%= form_with model: [ :admin, promotion ], class: "form", multipart: true do |form| %>
+  <div class="field">
+    <%= form.label :name, "Nombre", class: "field__label" %>
+    <%= form.text_field :name, class: "field__input", required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :points_for_redemption, "Puntos para canjear", class: "field__label" %>
+    <%= form.number_field :points_for_redemption, min: 1, class: "field__input", required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image, "Imagen", class: "field__label" %>
+    <%= form.file_field :image, accept: "image/*", class: "field__input" %>
+    <% if promotion.image.attached? %>
+      <span class="field__hint">Imagen actual: <%= promotion.image.filename %></span>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <span class="field__label">Productos incluidos</span>
+    <% products = Product.active.order(:name) %>
+    <% if products.any? %>
+      <div class="field__checklist">
+        <%= form.collection_check_boxes :product_ids, products, :id, :name do |b| %>
+          <label><%= b.check_box %> <%= b.text %></label>
+        <% end %>
+      </div>
+    <% else %>
+      <span class="field__hint">No hay productos activos. Crealos primero.</span>
+    <% end %>
+  </div>
+
+  <label class="field__checkbox">
+    <%= form.check_box :active %>
+    Activa
+  </label>
+
+  <div class="button-row">
+    <%= form.submit(promotion.persisted? ? "Guardar cambios" : "Crear promoción", class: "btn btn--primary") %>
+    <%= link_to "Cancelar", admin_promotions_path, class: "btn btn--ghost" %>
+  </div>
+<% end %>

@@ -1,0 +1,36 @@
+<%= render "shared/form_errors", resource: product %>
+
+<%= form_with model: [ :admin, product ], class: "form", multipart: true do |form| %>
+  <div class="field">
+    <%= form.label :name, "Nombre", class: "field__label" %>
+    <%= form.text_field :name, class: "field__input", required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, "Descripción", class: "field__label" %>
+    <%= form.text_area :description, class: "field__textarea", rows: 4 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :price, "Precio (ARS)", class: "field__label" %>
+    <%= form.number_field :price, step: "0.01", min: 0, class: "field__input", required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :image, "Imagen", class: "field__label" %>
+    <%= form.file_field :image, accept: "image/*", class: "field__input" %>
+    <% if product.image.attached? %>
+      <span class="field__hint">Imagen actual: <%= product.image.filename %></span>
+    <% end %>
+  </div>
+
+  <label class="field__checkbox">
+    <%= form.check_box :active %>
+    Activo
+  </label>
+
+  <div class="button-row">
+    <%= form.submit(product.persisted? ? "Guardar cambios" : "Crear producto", class: "btn btn--primary") %>
+    <%= link_to "Cancelar", admin_products_path, class: "btn btn--ghost" %>
+  </div>
+<% end %>

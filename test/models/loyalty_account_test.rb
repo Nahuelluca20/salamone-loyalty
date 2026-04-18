@@ -27,4 +27,10 @@ class LoyaltyAccountTest < ActiveSupport::TestCase
     end
     assert_equal 0, @account.loyalty_transactions.count
   end
+
+  test "apply! stores amount_cents on the transaction" do
+    @account.apply!(points: 10, kind: :earn, amount_cents: 100_000)
+
+    assert_equal 100_000, @account.loyalty_transactions.last.amount_cents
+  end
 end

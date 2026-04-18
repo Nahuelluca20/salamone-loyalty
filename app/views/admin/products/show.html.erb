@@ -1,0 +1,43 @@
+<% content_for :title, "#{@product.name} — Admin" %>
+
+<section class="page-head">
+  <div>
+    <p class="page-head__eyebrow">Producto</p>
+    <h1 class="page-head__title"><%= @product.name %></h1>
+  </div>
+  <div class="button-row">
+    <%= link_to "Editar", edit_admin_product_path(@product), class: "btn btn--ghost" %>
+    <%= button_to "Eliminar", admin_product_path(@product), method: :delete,
+          class: "btn btn--danger",
+          form: { data: { turbo_confirm: "¿Seguro?" } } %>
+  </div>
+</section>
+
+<div class="card">
+  <% if @product.image.attached? %>
+    <%= image_tag @product.image, alt: @product.name,
+          style: "max-width: 320px; border-radius: var(--radius); margin-bottom: 20px;" %>
+  <% end %>
+
+  <dl>
+    <dt class="field__label">Estado</dt>
+    <dd>
+      <span class="badge <%= @product.active? ? 'badge--active' : 'badge--inactive' %>">
+        <%= @product.active? ? "Activo" : "Inactivo" %>
+      </span>
+    </dd>
+
+    <dt class="field__label" style="margin-top: 16px;">Precio</dt>
+    <dd>$<%= number_with_precision(@product.price, precision: 2) %></dd>
+
+    <% if @product.description.present? %>
+      <dt class="field__label" style="margin-top: 16px;">Descripción</dt>
+      <dd><%= simple_format(@product.description) %></dd>
+    <% end %>
+
+    <% if @product.created_by %>
+      <dt class="field__label" style="margin-top: 16px;">Creado por</dt>
+      <dd><%= @product.created_by.email_address %></dd>
+    <% end %>
+  </dl>
+</div>

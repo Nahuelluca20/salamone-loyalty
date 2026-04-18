@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   namespace :admin do
     resource :session
+    resources :products
+    resources :promotions
+    resources :points_conversion_rules, path: "rules"
+    resources :points_awards, only: %i[ new create ]
+    get "users/search", to: "users#search", as: :users_search
   end
 
   resource :session

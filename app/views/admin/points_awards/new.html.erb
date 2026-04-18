@@ -1,0 +1,50 @@
+<% content_for :title, "Otorgar puntos — Admin" %>
+
+<section class="page-head">
+  <div>
+    <p class="page-head__eyebrow">Loyalty</p>
+    <h1 class="page-head__title">Otorgar puntos</h1>
+  </div>
+</section>
+
+<div class="card">
+  <p class="field__hint" style="margin-bottom: 20px;">
+    Regla activa: cada <strong><%= @rule.pesos_per_point %> ARS</strong> = 1 punto.
+  </p>
+
+  <%= form_with url: admin_points_awards_path, class: "form", method: :post do |form| %>
+    <div class="field"
+         data-controller="user-search"
+         data-user-search-url-value="<%= admin_users_search_path %>">
+      <%= form.label :email_address, "Email del cliente", class: "field__label" %>
+      <%= form.email_field :email_address,
+            required: true,
+            autocomplete: "off",
+            class: "field__input",
+            placeholder: "cliente@ejemplo.com",
+            data: { "user-search-target": "input", action: "input->user-search#query" } %>
+      <div class="search-results" data-user-search-target="results"></div>
+    </div>
+
+    <div class="field"
+         data-controller="points-preview"
+         data-points-preview-rate-value="<%= @rule.pesos_per_point %>">
+      <%= form.label :amount_ars, "Monto (ARS)", class: "field__label" %>
+      <%= form.number_field :amount_ars,
+            required: true,
+            min: 1,
+            step: 1,
+            class: "field__input",
+            placeholder: "Ej. 2500",
+            data: { "points-preview-target": "amount", action: "input->points-preview#compute" } %>
+      <p class="preview">
+        Puntos a otorgar: <strong data-points-preview-target="output">—</strong>
+      </p>
+    </div>
+
+    <div class="button-row">
+      <%= form.submit "Otorgar puntos", class: "btn btn--primary" %>
+      <%= link_to "Cancelar", admin_points_conversion_rules_path, class: "btn btn--ghost" %>
+    </div>
+  <% end %>
+</div>
