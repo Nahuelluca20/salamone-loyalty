@@ -6,22 +6,15 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
-
-# Remember not to checkin your GCS keyfile to a repository
-# google:
-#   service: GCS
-#   project: your_project
-#   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-#   bucket: your_own_bucket-<%= Rails.env %>
-
-# mirror:
-#   service: Mirror
-#   primary: local
-#   mirrors: [ amazon, google, microsoft ]
+# S3-compatible storage.
+# - Dev: points to MinIO on compose.yaml (http://localhost:9000)
+# - Prod: points to DigitalOcean Spaces (https://<region>.digitaloceanspaces.com)
+# Configure via ENV (dev) or Kamal secrets (prod).
+digitalocean:
+  service: S3
+  access_key_id: <%= ENV.fetch("AWS_ACCESS_KEY_ID", "salamone") %>
+  secret_access_key: <%= ENV.fetch("AWS_SECRET_ACCESS_KEY", "salamone123") %>
+  region: <%= ENV.fetch("AWS_REGION", "us-east-1") %>
+  bucket: <%= ENV.fetch("AWS_BUCKET", "salamone-development") %>
+  endpoint: <%= ENV.fetch("AWS_ENDPOINT", "http://localhost:9000") %>
+  force_path_style: <%= ENV.fetch("AWS_FORCE_PATH_STYLE", "true") == "true" %>
