@@ -21,13 +21,13 @@
     <tbody>
       <% @rules.each do |rule| %>
         <tr>
-          <td><%= rule.pesos_per_point %> ARS = 1 punto</td>
-          <td>
+          <td data-label="Pesos por punto"><%= rule.pesos_per_point %> ARS = 1 punto</td>
+          <td data-label="Estado">
             <span class="badge <%= rule.active? ? 'badge--active' : 'badge--inactive' %>">
               <%= rule.active? ? "Activa" : "Inactiva" %>
             </span>
           </td>
-          <td><%= l rule.created_at.to_date %></td>
+          <td data-label="Creada"><%= l rule.created_at.to_date %></td>
           <td>
             <div class="button-row">
               <%= link_to "Editar", edit_admin_points_conversion_rule_path(rule), class: "btn btn--ghost" %>

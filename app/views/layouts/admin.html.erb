@@ -21,12 +21,23 @@
   </head>
 
   <body class="admin">
-    <header class="admin-nav">
+    <header class="admin-nav" data-controller="nav-toggle" data-nav-toggle-open-value="false">
       <div class="admin-nav__brand">
         <%= link_to "Bazar Salamone", admin_points_conversion_rules_path, class: "admin-nav__wordmark" %>
         <span class="admin-nav__eyebrow">Panel interno</span>
       </div>
-      <nav class="admin-nav__links">
+      <button type="button"
+              class="admin-nav__toggle"
+              aria-expanded="false"
+              aria-controls="admin-nav-links"
+              aria-label="Abrir menú"
+              data-nav-toggle-target="button"
+              data-action="click->nav-toggle#toggle">
+        <span class="admin-nav__toggle-bar"></span>
+        <span class="admin-nav__toggle-bar"></span>
+        <span class="admin-nav__toggle-bar"></span>
+      </button>
+      <nav id="admin-nav-links" class="admin-nav__links">
         <%= link_to "Productos", admin_products_path, class: "admin-nav__link" %>
         <%= link_to "Promociones", admin_promotions_path, class: "admin-nav__link" %>
         <%= link_to "Reglas", admin_points_conversion_rules_path, class: "admin-nav__link" %>

@@ -12,6 +12,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th class="table__col--thumb"></th>
         <th>Nombre</th>
         <th>Puntos</th>
         <th>Productos</th>
@@ -22,10 +23,17 @@
     <tbody>
       <% @promotions.each do |promotion| %>
         <tr>
-          <td><%= link_to promotion.name, admin_promotion_path(promotion) %></td>
-          <td><%= promotion.points_for_redemption %></td>
-          <td><%= promotion.products.count %></td>
-          <td>
+          <td data-label="Imagen" class="table__cell--thumb">
+            <% if promotion.image.attached? %>
+              <%= image_tag promotion.image, alt: promotion.name, class: "thumb", loading: "lazy" %>
+            <% else %>
+              <span class="thumb thumb--empty" aria-hidden="true"></span>
+            <% end %>
+          </td>
+          <td data-label="Nombre"><%= link_to promotion.name, admin_promotion_path(promotion) %></td>
+          <td data-label="Puntos"><%= promotion.points_for_redemption %></td>
+          <td data-label="Productos"><%= promotion.products.count %></td>
+          <td data-label="Estado">
             <span class="badge <%= promotion.active? ? 'badge--active' : 'badge--inactive' %>">
               <%= promotion.active? ? "Activa" : "Inactiva" %>
             </span>

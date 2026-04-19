@@ -21,6 +21,7 @@
   <table class="table">
     <thead>
       <tr>
+        <th class="table__col--thumb"></th>
         <th>Nombre</th>
         <th>Precio</th>
         <th>Estado</th>
@@ -30,9 +31,16 @@
     <tbody>
       <% @products.each do |product| %>
         <tr>
-          <td><%= link_to product.name, admin_product_path(product) %></td>
-          <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-          <td>
+          <td data-label="Imagen" class="table__cell--thumb">
+            <% if product.image.attached? %>
+              <%= image_tag product.image, alt: product.name, class: "thumb", loading: "lazy" %>
+            <% else %>
+              <span class="thumb thumb--empty" aria-hidden="true"></span>
+            <% end %>
+          </td>
+          <td data-label="Nombre"><%= link_to product.name, admin_product_path(product) %></td>
+          <td data-label="Precio">$<%= number_with_precision(product.price, precision: 2) %></td>
+          <td data-label="Estado">
             <span class="badge <%= product.active? ? 'badge--active' : 'badge--inactive' %>">
               <%= product.active? ? "Activo" : "Inactivo" %>
             </span>
