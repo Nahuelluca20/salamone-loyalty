@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title><%= content_for(:title) || "Bazar Salamone" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="application-name" content="Bazar Salamone">
+    <meta name="theme-color" content="#FAFAFA">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30..100;1,9..144,300..600,30..100&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <%= stylesheet_link_tag "shop", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="shop-app">
+    <header class="shop-top">
+      <%= link_to products_path, class: "shop-top__brand" do %>
+        <span class="shop-top__brand-eyebrow">Bazar</span>
+        <span class="shop-top__brand-name">Salamone</span>
+      <% end %>
+      <div class="shop-top__right">
+        <span class="shop-top__points" aria-label="Puntos disponibles">
+          <strong><%= Current.user&.loyalty_account&.points_balance || 0 %></strong>
+          <span class="shop-top__points-label">pts</span>
+        </span>
+        <%= button_to "Salir", session_path, method: :delete, class: "shop-top__logout" %>
+      </div>
+    </header>
+
+    <main class="shop-main">
+      <%= render "shared/flash" %>
+      <%= yield %>
+    </main>
+
+    <nav class="shop-tabs" aria-label="Navegación principal">
+      <%= link_to products_path, class: "shop-tabs__tab #{'is-active' if controller_name == 'products'}" do %>
+        <svg class="shop-tabs__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M4 7h16l-1.2 12.2a1 1 0 0 1-1 .9H6.2a1 1 0 0 1-1-.9L4 7Zm4 0V5.5a4 4 0 1 1 8 0V7" />
+        </svg>
+        <span class="shop-tabs__label">Productos</span>
+      <% end %>
+      <%= link_to promotions_path, class: "shop-tabs__tab #{'is-active' if controller_name == 'promotions'}" do %>
+        <svg class="shop-tabs__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="m12 3 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.2l1-5.9L3.5 9.2l5.9-.8L12 3Z" />
+        </svg>
+        <span class="shop-tabs__label">Promociones</span>
+      <% end %>
+    </nav>
+  </body>
+</html>

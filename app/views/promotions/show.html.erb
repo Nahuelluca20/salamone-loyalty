@@ -1,0 +1,57 @@
+<% content_for :title, "#{@promotion.name} — Bazar Salamone" %>
+
+<article class="shop-detail">
+  <div class="shop-detail__hero">
+    <% if @promotion.image.attached? %>
+      <%= image_tag @promotion.image, alt: @promotion.name %>
+    <% else %>
+      <span class="shop-detail__hero-placeholder">Sin foto</span>
+    <% end %>
+  </div>
+
+  <header class="shop-detail__header">
+    <span class="shop-detail__eyebrow">Promoción</span>
+    <h1 class="shop-detail__title"><%= @promotion.name %></h1>
+    <div class="shop-detail__meta">
+      <span class="shop-detail__chip">
+        <strong><%= @promotion.points_for_redemption %></strong>
+        <span>pts para canjear</span>
+      </span>
+    </div>
+  </header>
+
+  <% if @promotion.description.present? %>
+    <div class="shop-detail__description"><%= simple_format(@promotion.description) %></div>
+  <% end %>
+
+  <section class="shop-section">
+    <header class="shop-section__head">
+      <span class="shop-section__eyebrow">Incluye</span>
+      <h2 class="shop-section__title">Productos incluidos</h2>
+    </header>
+
+    <% if @products.any? %>
+      <div class="shop-grid">
+        <% @products.each do |product| %>
+          <%= link_to product_path(product), class: "shop-card" do %>
+            <div class="shop-card__media">
+              <% if product.image.attached? %>
+                <%= image_tag product.image, loading: "lazy", alt: product.name %>
+              <% else %>
+                <span class="shop-card__placeholder">Sin foto</span>
+              <% end %>
+            </div>
+            <div class="shop-card__body">
+              <span class="shop-card__name"><%= product.name %></span>
+              <span class="shop-card__meta shop-card__price">
+                $<%= number_with_precision(product.price, precision: 2, delimiter: ".", separator: ",") %>
+              </span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="shop-empty">Esta promoción todavía no tiene productos asociados.</div>
+    <% end %>
+  </section>
+</article>

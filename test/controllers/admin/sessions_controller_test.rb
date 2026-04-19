@@ -6,9 +6,10 @@ class Admin::SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "create with admin credentials" do
+  test "create with admin credentials redirects to admin products" do
     post admin_session_path, params: { email_address: "admin@example.com", password: "password" }
 
+    assert_redirected_to admin_products_path
     assert cookies[:session_id]
   end
 

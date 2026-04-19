@@ -1,0 +1,31 @@
+<% content_for :title, "Productos — Bazar Salamone" %>
+
+<header class="shop-page-head">
+  <p class="shop-page-head__eyebrow">Catálogo</p>
+  <h1 class="shop-page-head__title">Productos</h1>
+  <p class="shop-page-head__sub">Descubrí el catálogo de la tienda.</p>
+</header>
+
+<% if @products.any? %>
+  <section class="shop-grid">
+    <% @products.each do |product| %>
+      <%= link_to product_path(product), class: "shop-card" do %>
+        <div class="shop-card__media">
+          <% if product.image.attached? %>
+            <%= image_tag product.image, loading: "lazy", alt: product.name %>
+          <% else %>
+            <span class="shop-card__placeholder">Sin foto</span>
+          <% end %>
+        </div>
+        <div class="shop-card__body">
+          <span class="shop-card__name"><%= product.name %></span>
+          <span class="shop-card__meta shop-card__price">
+            $<%= number_with_precision(product.price, precision: 2, delimiter: ".", separator: ",") %>
+          </span>
+        </div>
+      <% end %>
+    <% end %>
+  </section>
+<% else %>
+  <div class="shop-empty">Todavía no hay productos disponibles.</div>
+<% end %>

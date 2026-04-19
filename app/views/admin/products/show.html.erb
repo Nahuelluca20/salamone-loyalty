@@ -15,8 +15,7 @@
 
 <div class="card">
   <% if @product.image.attached? %>
-    <%= image_tag @product.image, alt: @product.name,
-          style: "max-width: 320px; border-radius: var(--radius); margin-bottom: 20px;" %>
+    <%= image_tag @product.image, alt: @product.name, class: "image-preview" %>
   <% end %>
 
   <dl>
@@ -27,16 +26,16 @@
       </span>
     </dd>
 
-    <dt class="field__label" style="margin-top: 16px;">Precio</dt>
+    <dt class="field__label field__label--inline">Precio</dt>
     <dd>$<%= number_with_precision(@product.price, precision: 2) %></dd>
 
     <% if @product.description.present? %>
-      <dt class="field__label" style="margin-top: 16px;">Descripción</dt>
+      <dt class="field__label field__label--inline">Descripción</dt>
       <dd><%= simple_format(@product.description) %></dd>
     <% end %>
 
     <% if @product.created_by %>
-      <dt class="field__label" style="margin-top: 16px;">Creado por</dt>
+      <dt class="field__label field__label--inline">Creado por</dt>
       <dd><%= @product.created_by.email_address %></dd>
     <% end %>
   </dl>

@@ -11,7 +11,7 @@ module Admin
       if user = User.authenticate_by(params.permit(:email_address, :password))
         if user.admin?
           start_new_session_for user
-          redirect_to root_url
+          redirect_to admin_products_url
         else
           redirect_to new_admin_session_path, alert: "Not authorized."
         end

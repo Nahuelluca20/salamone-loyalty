@@ -1,0 +1,51 @@
+<% content_for :title, "#{@product.name} — Bazar Salamone" %>
+
+<article class="shop-detail">
+  <div class="shop-detail__hero">
+    <% if @product.image.attached? %>
+      <%= image_tag @product.image, alt: @product.name %>
+    <% else %>
+      <span class="shop-detail__hero-placeholder">Sin foto</span>
+    <% end %>
+  </div>
+
+  <header class="shop-detail__header">
+    <span class="shop-detail__eyebrow">Producto</span>
+    <h1 class="shop-detail__title"><%= @product.name %></h1>
+    <div class="shop-detail__meta">
+      <span class="shop-detail__price">
+        $<%= number_with_precision(@product.price, precision: 2, delimiter: ".", separator: ",") %>
+      </span>
+    </div>
+  </header>
+
+  <% if @product.description.present? %>
+    <div class="shop-detail__description"><%= simple_format(@product.description) %></div>
+  <% end %>
+
+  <% if @related_promotions.any? %>
+    <section class="shop-section">
+      <header class="shop-section__head">
+        <span class="shop-section__eyebrow">Canjeable</span>
+        <h2 class="shop-section__title">Promociones disponibles</h2>
+      </header>
+      <div class="shop-grid">
+        <% @related_promotions.each do |promo| %>
+          <%= link_to promotion_path(promo), class: "shop-card" do %>
+            <div class="shop-card__media">
+              <% if promo.image.attached? %>
+                <%= image_tag promo.image, loading: "lazy", alt: promo.name %>
+              <% else %>
+                <span class="shop-card__placeholder">Sin foto</span>
+              <% end %>
+            </div>
+            <div class="shop-card__body">
+              <span class="shop-card__name"><%= promo.name %></span>
+              <span class="shop-card__chip"><%= promo.points_for_redemption %> pts</span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</article>

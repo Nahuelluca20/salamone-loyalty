@@ -37,7 +37,11 @@ module Authentication
     end
 
     def after_authentication_url
-      session.delete(:return_to_after_authenticating) || root_url
+      session.delete(:return_to_after_authenticating) || default_url_after_sign_in
+    end
+
+    def default_url_after_sign_in
+      Current.user&.admin? ? admin_products_url : products_url
     end
 
     def start_new_session_for(user)

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource :registration, only: [ :new, :create ]
 
+  resources :products, only: %i[ index show ]
+  resources :promotions, only: %i[ index show ]
+
   get "home", to: "pages#home", as: :home
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

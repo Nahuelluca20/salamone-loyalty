@@ -171,7 +171,7 @@ body {
 /* Badges ------------------------------------------------------------ */
 .badge {
   display: inline-block;
-  padding: 3px 10px;
+  padding: 4px 12px;
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -188,7 +188,18 @@ body {
   border-radius: var(--radius);
   padding: 28px;
 }
-.card + .card { margin-top: 20px; }
+.card + .card { margin-top: 28px; }
+
+/* Utility ----------------------------------------------------------- */
+.image-preview {
+  max-width: 320px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.field__label--inline { margin-top: 16px; }
+.muted { color: var(--ink-muted); }
+.stack-mb-sm { margin-bottom: 20px; }
+.inline-hint { margin-left: 8px; }
 
 /* Forms ------------------------------------------------------------- */
 .form { display: flex; flex-direction: column; gap: 20px; max-width: 520px; }
@@ -329,6 +340,19 @@ body {
 /* Responsive -------------------------------------------------------- */
 @media (max-width: 720px) {
   .admin-nav { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 20px; }
+  .admin-nav__links { flex-wrap: wrap; }
   .admin-main { padding: 24px 20px; }
   .page-head { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 560px) {
+  .admin-main { padding: 20px 16px 32px; }
+  .card { padding: 20px; }
+  .card + .card { margin-top: 20px; }
+  .page-head { margin-bottom: 24px; padding-bottom: 14px; gap: 14px; }
+  .page-head__title { font-size: 24px; }
+  .button-row { flex-wrap: wrap; }
+  .btn { flex: 1 1 auto; }
+  .table th, .table td { padding: 12px 12px; }
+  .form { max-width: 100%; }
 }

@@ -1,0 +1,521 @@
+/*
+ * Shop — Bazar Salamone customer surface.
+ * Mobile-first. Bottom tab bar + sticky top bar.
+ * Fonts are loaded from Google Fonts in app/views/layouts/shop.html.erb.
+ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body { margin: 0; padding: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+button,
+input { font-family: inherit; }
+
+:root {
+  --primary: #09ABE8;
+  --primary-dark: #0788BA;
+  --secondary: #70CBF7;
+  --primary-tint: #E6F6FD;
+
+  --ink: #0E1116;
+  --ink-muted: #5B6470;
+  --ink-faint: #9AA2AD;
+  --line: #E4E7EB;
+  --line-soft: #EEF0F3;
+  --surface: #FFFFFF;
+  --surface-soft: #FAFAFA;
+  --graphite: #141619;
+  --graphite-soft: #1F2227;
+
+  --danger: #B3261E;
+  --danger-tint: #FDECEA;
+  --success: #1E7F4A;
+  --success-tint: #E8F5EE;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius: 4px;
+
+  --tab-height: 72px;
+}
+
+html { background: var(--surface-soft); }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--surface-soft);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ------------------------------------------------------------------
+ * App shell
+ * ------------------------------------------------------------------ */
+.shop-app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.shop-main {
+  flex: 1;
+  padding: 20px 16px calc(var(--tab-height) + 24px + env(safe-area-inset-bottom)) 16px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 560px) {
+  .shop-main { padding: 28px 24px calc(var(--tab-height) + 32px + env(safe-area-inset-bottom)) 24px; }
+}
+
+/* ------------------------------------------------------------------
+ * Top bar
+ * ------------------------------------------------------------------ */
+.shop-top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  min-height: 56px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.shop-top__brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.shop-top__brand-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+.shop-top__brand-name {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+.shop-top__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shop-top__points {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.shop-top__points strong {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+.shop-top__points-label { opacity: 0.75; }
+
+.shop-top__logout,
+.shop-top__logout[type="submit"] {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 10px 12px;
+  min-height: 40px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.shop-top__logout:hover { background: var(--surface-soft); border-color: var(--ink-faint); }
+
+/* button_to wraps in a form — strip its default margin */
+.shop-top__right form { margin: 0; }
+
+/* ------------------------------------------------------------------
+ * Bottom tab bar
+ * ------------------------------------------------------------------ */
+.shop-tabs {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 25;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.shop-tabs__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: var(--tab-height);
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  position: relative;
+  transition: color 120ms ease;
+}
+
+.shop-tabs__tab:hover { color: var(--ink); }
+
+.shop-tabs__icon {
+  width: 22px;
+  height: 22px;
+}
+
+.shop-tabs__tab.is-active { color: var(--primary); }
+
+.shop-tabs__tab.is-active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 24%;
+  right: 24%;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ------------------------------------------------------------------
+ * Page head
+ * ------------------------------------------------------------------ */
+.shop-page-head { margin-bottom: 20px; }
+
+.shop-page-head__eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-muted);
+}
+
+.shop-page-head__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(26px, 6vw, 40px);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.shop-page-head__sub {
+  margin: 10px 0 0;
+  color: var(--ink-muted);
+  max-width: 60ch;
+}
+
+/* ------------------------------------------------------------------
+ * Grid + card
+ * ------------------------------------------------------------------ */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 560px) { .shop-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+@media (min-width: 960px) { .shop-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 120ms ease, transform 160ms ease;
+  color: inherit;
+}
+
+@media (hover: hover) {
+  .shop-card:hover { border-color: var(--ink); transform: translateY(-1px); }
+}
+
+.shop-card__media {
+  aspect-ratio: 1 / 1;
+  background: var(--surface-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-card__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.shop-card__body {
+  padding: 12px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.shop-card__name {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.shop-card__meta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+
+.shop-card__price { color: var(--ink); }
+
+.shop-card__chip {
+  align-self: flex-start;
+  padding: 4px 8px;
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ------------------------------------------------------------------
+ * Detail
+ * ------------------------------------------------------------------ */
+.shop-detail { display: flex; flex-direction: column; gap: 20px; }
+
+.shop-detail__hero {
+  margin: -20px -16px 0;
+  background: var(--surface-soft);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  position: relative;
+}
+
+.shop-detail__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-detail__hero-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+@media (min-width: 560px) {
+  .shop-detail__hero {
+    margin: 0;
+    border-radius: var(--radius);
+    aspect-ratio: 16 / 9;
+    max-height: 420px;
+  }
+}
+
+.shop-detail__header { display: flex; flex-direction: column; gap: 10px; }
+
+.shop-detail__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-muted);
+}
+
+.shop-detail__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(28px, 7vw, 44px);
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  color: var(--ink);
+}
+
+.shop-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.shop-detail__price {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.shop-detail__chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.shop-detail__chip strong { font-weight: 600; font-size: 14px; letter-spacing: 0; }
+
+.shop-detail__description {
+  color: var(--ink);
+  max-width: 60ch;
+}
+
+.shop-detail__description p { margin: 0 0 12px; }
+
+/* Related section */
+.shop-section { margin-top: 12px; }
+
+.shop-section__head { margin-bottom: 14px; }
+
+.shop-section__eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+
+.shop-section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(20px, 4.5vw, 28px);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* ------------------------------------------------------------------
+ * Empty state
+ * ------------------------------------------------------------------ */
+.shop-empty {
+  padding: 32px 16px;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--ink-muted);
+  background: var(--surface);
+}
+
+/* ------------------------------------------------------------------
+ * Flash (shared partial)
+ * ------------------------------------------------------------------ */
+.flash {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  font-size: 14px;
+}
+
+.flash--alert {
+  background: var(--danger-tint);
+  border-color: color-mix(in srgb, var(--danger) 30%, transparent);
+  color: var(--danger);
+}
+
+.flash--notice {
+  background: var(--success-tint);
+  border-color: color-mix(in srgb, var(--success) 30%, transparent);
+  color: var(--success);
+}
+
+/* ------------------------------------------------------------------
+ * Motion
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  .shop-main > * { animation: shop-fade-up 360ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+  @keyframes shop-fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}

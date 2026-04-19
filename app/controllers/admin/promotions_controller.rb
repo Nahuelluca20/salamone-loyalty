@@ -45,7 +45,7 @@ module Admin
     end
 
     def promotion_params
-      params.require(:promotion).permit(:name, :points_for_redemption, :active, :image, product_ids: [])
+      params.require(:promotion).permit(:name, :description, :points_for_redemption, :active, :image, product_ids: [])
     end
   end
 end

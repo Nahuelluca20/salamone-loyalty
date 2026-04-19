@@ -8,7 +8,7 @@
   <%= link_to "Nuevo producto", new_admin_product_path, class: "btn btn--primary" %>
 </section>
 
-<div class="button-row" style="margin-bottom: 20px;">
+<div class="button-row stack-mb-sm">
   <%= link_to "Activos", admin_products_path(status: "active"),
         class: "btn #{@status == 'active' ? 'btn--primary' : 'btn--ghost'}" %>
   <%= link_to "Inactivos", admin_products_path(status: "inactive"),
@@ -43,5 +43,5 @@
     </tbody>
   </table>
 <% else %>
-  <p style="color: var(--ink-muted);">Sin productos en este filtro.</p>
+  <p class="muted">Sin productos en este filtro.</p>
 <% end %>

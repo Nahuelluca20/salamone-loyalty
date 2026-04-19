@@ -22,10 +22,15 @@
       </span>
     </dd>
 
-    <dt class="field__label" style="margin-top: 16px;">Puntos para canjear</dt>
+    <dt class="field__label field__label--inline">Puntos para canjear</dt>
     <dd><%= @promotion.points_for_redemption %></dd>
 
-    <dt class="field__label" style="margin-top: 16px;">Productos incluidos</dt>
+    <% if @promotion.description.present? %>
+      <dt class="field__label field__label--inline">Descripción</dt>
+      <dd><%= simple_format(@promotion.description) %></dd>
+    <% end %>
+
+    <dt class="field__label field__label--inline">Productos incluidos</dt>
     <dd>
       <% if @promotion.products.any? %>
         <ul>
@@ -34,7 +39,7 @@
           <% end %>
         </ul>
       <% else %>
-        <em style="color: var(--ink-muted);">Sin productos asociados.</em>
+        <em class="muted">Sin productos asociados.</em>
       <% end %>
     </dd>
   </dl>

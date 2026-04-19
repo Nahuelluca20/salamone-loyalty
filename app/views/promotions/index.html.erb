@@ -1,0 +1,29 @@
+<% content_for :title, "Promociones — Bazar Salamone" %>
+
+<header class="shop-page-head">
+  <p class="shop-page-head__eyebrow">Canje</p>
+  <h1 class="shop-page-head__title">Promociones</h1>
+  <p class="shop-page-head__sub">Canjeá tus puntos por estos combos y productos.</p>
+</header>
+
+<% if @promotions.any? %>
+  <section class="shop-grid">
+    <% @promotions.each do |promo| %>
+      <%= link_to promotion_path(promo), class: "shop-card" do %>
+        <div class="shop-card__media">
+          <% if promo.image.attached? %>
+            <%= image_tag promo.image, loading: "lazy", alt: promo.name %>
+          <% else %>
+            <span class="shop-card__placeholder">Sin foto</span>
+          <% end %>
+        </div>
+        <div class="shop-card__body">
+          <span class="shop-card__name"><%= promo.name %></span>
+          <span class="shop-card__chip"><%= promo.points_for_redemption %> pts</span>
+        </div>
+      <% end %>
+    <% end %>
+  </section>
+<% else %>
+  <div class="shop-empty">Todavía no hay promociones activas.</div>
+<% end %>

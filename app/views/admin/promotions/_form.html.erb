@@ -7,6 +7,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :description, "Descripción", class: "field__label" %>
+    <%= form.text_area :description, rows: 4, class: "field__textarea" %>
+  </div>
+
+  <div class="field">
     <%= form.label :points_for_redemption, "Puntos para canjear", class: "field__label" %>
     <%= form.number_field :points_for_redemption, min: 1, class: "field__input", required: true %>
   </div>

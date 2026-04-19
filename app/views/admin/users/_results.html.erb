@@ -6,7 +6,7 @@
           data-action="click->user-search#pick"
           data-email="<%= user.email_address %>">
         <%= user.email_address %>
-        <span class="field__hint" style="margin-left: 8px;">
+        <span class="field__hint inline-hint">
           Saldo: <%= user.loyalty_account&.points_balance || 0 %> pts
         </span>
       </li>

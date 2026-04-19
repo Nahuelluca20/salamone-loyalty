@@ -32,4 +32,5 @@ promo = Promotion.find_or_create_by!(name: "Bienvenida 2x1") do |p|
   p.active = true
   p.created_by = admin
 end
+promo.update!(description: "Combinación clásica para empezar a canjear tus puntos.") if promo.description.blank?
 promo.products = Product.where(name: product_names.first(2))
