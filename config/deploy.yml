@@ -2,15 +2,15 @@
 service: salamone_rails
 
 # Name of the container image (use your-user/app-name on external registries).
-image: salamone_rails
+image: nahuelluca20/salamone_rails
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - 87.99.156.202
   # job:
   #   hosts:
-  #     - 192.168.0.1
+  #     - 87.99.156.202
   #   cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
@@ -26,24 +26,33 @@ servers:
 
 # Where you keep your container images.
 registry:
-  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
-
-  # Needed for authenticated registries.
-  # username: your-user
-
-  # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  server: ghcr.io
+  username: nahuelluca20
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
     - RAILS_MASTER_KEY
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - SALAMONE_RAILS_DATABASE_PASSWORD
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+
+    # Cloudflare R2 (S3-compatible) for Active Storage.
+    # Phase A: URLs are presigned (private) — work against the S3 API endpoint.
+    # Phase B: add a custom service subclass to serve public URLs from a CDN domain.
+    AWS_REGION: auto
+    AWS_ENDPOINT: https://e4ec2904f32944ac7ceb43c2740f3ca3.r2.cloudflarestorage.com
+    AWS_BUCKET: salamone-rails
+    AWS_FORCE_PATH_STYLE: "true"
+
+    # Postgres accessory on same host (container-to-container via kamal network).
+    DB_HOST: salamone_rails-db
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -94,26 +103,17 @@ builder:
 # ssh:
 #   user: app
 
-# Use accessory services (secrets come from .kamal/secrets).
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     # Change to 3306 to expose port to the world instead of just local network.
-#     port: "127.0.0.1:3306:3306"
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
-#   redis:
-#     image: valkey/valkey:8
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data
+# Accessory services (secrets come from .kamal/secrets).
+accessories:
+  db:
+    image: postgres:16
+    host: 87.99.156.202
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: salamone_rails
+        POSTGRES_DB: salamone_rails_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

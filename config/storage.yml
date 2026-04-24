@@ -8,13 +8,15 @@ local:
 
 # S3-compatible storage.
 # - Dev: points to MinIO on compose.yaml (http://localhost:9000)
-# - Prod: points to DigitalOcean Spaces (https://<region>.digitaloceanspaces.com)
+# - Prod: points to Cloudflare R2 (https://<account-id>.r2.cloudflarestorage.com)
 # Configure via ENV (dev) or Kamal secrets (prod).
-digitalocean:
+cloud:
   service: S3
   access_key_id: <%= ENV.fetch("AWS_ACCESS_KEY_ID", "salamone") %>
   secret_access_key: <%= ENV.fetch("AWS_SECRET_ACCESS_KEY", "salamone123") %>
-  region: <%= ENV.fetch("AWS_REGION", "us-east-1") %>
+  region: <%= ENV.fetch("AWS_REGION", "auto") %>
   bucket: <%= ENV.fetch("AWS_BUCKET", "salamone-development") %>
   endpoint: <%= ENV.fetch("AWS_ENDPOINT", "http://localhost:9000") %>
   force_path_style: <%= ENV.fetch("AWS_FORCE_PATH_STYLE", "true") == "true" %>
+  request_checksum_calculation: when_required
+  response_checksum_validation: when_required

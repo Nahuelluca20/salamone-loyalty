@@ -28,8 +28,9 @@ Rails.application.configure do
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 
-  # Store uploaded files on MinIO (S3-compatible, see compose.yaml + config/storage.yml).
-  config.active_storage.service = :digitalocean
+  # Store uploaded files on MinIO by default (S3-compatible, see compose.yaml + config/storage.yml).
+  # Override via AWS_* ENV vars to point at another S3 backend (e.g. R2) for a session.
+  config.active_storage.service = :cloud
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

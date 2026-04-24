@@ -84,6 +84,7 @@ production:
     database: salamone_rails_production
     username: salamone_rails
     password: <%= ENV["SALAMONE_RAILS_DATABASE_PASSWORD"] %>
+    host: <%= ENV["DB_HOST"] %>
   cache:
     <<: *primary_production
     database: salamone_rails_production_cache
