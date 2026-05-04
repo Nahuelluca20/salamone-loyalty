@@ -6,6 +6,22 @@ class Admin::SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "new redirects authenticated admin to admin products" do
+    sign_in_as(users(:admin))
+
+    get new_admin_session_path
+
+    assert_redirected_to admin_products_path
+  end
+
+  test "new redirects authenticated customer to products" do
+    sign_in_as(users(:customer))
+
+    get new_admin_session_path
+
+    assert_redirected_to products_path
+  end
+
   test "create with admin credentials redirects to admin products" do
     post admin_session_path, params: { email_address: "admin@example.com", password: "password" }
 

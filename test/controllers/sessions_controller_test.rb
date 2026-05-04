@@ -8,6 +8,22 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "new redirects authenticated customer to products" do
+    sign_in_as(@user)
+
+    get new_session_path
+
+    assert_redirected_to products_path
+  end
+
+  test "new redirects authenticated admin to admin products" do
+    sign_in_as(users(:admin))
+
+    get new_session_path
+
+    assert_redirected_to admin_products_path
+  end
+
   test "create with customer credentials redirects to products" do
     post session_path, params: { email_address: @user.email_address, password: "password" }
 
